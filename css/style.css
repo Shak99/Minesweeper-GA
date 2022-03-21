@@ -1,0 +1,56 @@
+:root {
+    --dkGreen: #048000;
+    --brGreen: #0bc905;
+    --bombRed: #ff0000;
+  }
+
+h1{
+    text-align: center;
+}
+
+
+.board{
+    display: grid;
+    height:400px;
+    width: 400px;
+    grid-row: repeat(10, 1fr); /*This is giving us our 10x10 grid look*/
+    border: 3px brown;
+}
+
+.rowClass{
+    display: grid;
+    height:40px;
+    width: 40px;
+    grid-row: 50px 50px;/*repeat(10, 1fr); /*This is giving us our 10x10 grid look*/
+
+}
+
+.grid {
+    height: 30px;
+    width: 30px;
+    table-layout: fixed;
+    table-layout: fixed;
+    width: 30px;
+}
+
+td{
+    width: 40px;
+    height:40px
+}
+
+button {
+
+}
+
+.cell{
+    background-color: rgb(61, 138, 61);
+}
+.clear{
+    background-color: #f8f298;
+}
+.bomb{
+    background-color: rgb(255, 0, 0);
+}
+.tdBomb{
+    background-color: rgb(255, 0, 0);
+}
