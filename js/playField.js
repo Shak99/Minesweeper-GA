@@ -75,16 +75,24 @@ const selected = document.querySelectorAll('.cell')
 for (const btnSelect of selected) {
   btnSelect.addEventListener('click', function(event) {
     console.log('button clicked called')
-    /*if(startCLick === true && firstClick === false){ //initiate firstClick and clear come cells
-        //....
+    if(startCLick === true && firstClick === false){ //initiate firstClick and clear come cells and call assign bombs
+        firstClick = true;
+        console.log("should call assign bomb next!!!!")
+        assignBomb();
         //firstClick = true
     }
-    if (startCLick === true && firstClick === true){ //clear some cells/set bombs off green -> red
-
-    }*/
+    if(startCLick === false && firstClick === false){ //clear some cells/set bombs off green -> red
+        return
+    }
+    /*
     if(startCLick === true && firstClick === false){
         firstClick = true;
         assignBomb()
+    }*/
+    if (firstClick === false){
+        firstClick = true;
+        console.log("should call assign bomb next!!!!")
+        assignBomb();
     }
 
     let id = btnSelect.id;

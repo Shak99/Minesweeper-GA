@@ -88,7 +88,19 @@ function assignBomb(){
         }
     }
     console.log(bombArr)
+    //checkNeighbors()
 
+}
+///////////////////////////////////////////////////////////////////////////////////////
+function isBomb(idVal){
+    console.log('is a bomb called')
+    if(bombArr.includes(idVal)){
+        return true
+    } else {
+        cleared++
+        return false
+    }
+    
 }
 ////////////////////////////////////////////////////////////////////////////////////////
 function checkValues(num, arrayB, arrayA){
@@ -110,28 +122,24 @@ function playGame(){
     firstClick = false;
     startCLick = true;
     gameoverBool = false;
-    
-    for(let i = 0; i < bombArr.length; i++){
-        let elem = document.getElementById(i)
-        elem.style.backgroundColor = 'green';
-        } 
-    
-    /*let elem = document.getElementById(e)
-    if(elem.style.backgroundColor != 'green'){
-        elem.style.backgroundColor = 'green';
-    }*/
-    bombArr.length = 0;
+
+    for(let i = 0; i <= index; i++){
+        let tdEl = document.getElementById(i)
+        tdEl.style.backgroundColor = '#3d8a3d'
+    }
+
+    bombArr = []
     //setBoard(); //make board
 
 }
 ///////////////////////////////////////////////////////////////////////////////////////
 //This is function checkCell
-//startClick = true; firstClick = false
+startClick = true; firstClick = false
 const selected = document.querySelectorAll('.cell')
 for (const btnSelect of selected) {
   btnSelect.addEventListener('click', function(event) {
     console.log('button clicked called')
-    if(startCLick === true && firstClick === false){ //initiate firstClick and clear come cells and call assign bombs
+    /*if(startCLick === true && firstClick === false){ //initiate firstClick and clear come cells and call assign bombs
         firstClick = true;
         console.log("should call assign bomb next!!!!")
         assignBomb();
@@ -139,13 +147,14 @@ for (const btnSelect of selected) {
     }
     if(startCLick === false && firstClick === false){ //clear some cells/set bombs off green -> red
         return
-    }
+    }*/
     /*
     if(startCLick === true && firstClick === false){
         firstClick = true;
         assignBomb()
     }*/
-    if (firstClick === false){
+    if (firstClick === false && gameoverBool === false){
+        bombArr = []
         firstClick = true;
         console.log("should call assign bomb next!!!!")
         assignBomb();
@@ -173,14 +182,6 @@ for (const btnSelect of selected) {
         winner()
     }
 
-    //let td = document.querySelectorAll('td')
-    //let tdEl = td.getElementById(id)
-
-    //newSettings(id)
-
-
-    //btnSelect.style.backgroundColor = 'ff0000'
-    //select td to change red
     console.log(`buttons ${id} work `);
     found = false;
   })
@@ -195,41 +196,57 @@ function GameOver(){
         tdEl.style.backgroundColor = 'red'
     })
 
+    bombArr.forEach(function(i){
+        bombArr.pop()
+    })
+
     firstClick = false;
     startCLick = false;
 
 }
 function winner(){
     gameoverBool = true
+    startCLick = false
     console.log('You Win!!!!!')
 }
 
-//console.log('found ' + bombArr.includes(8))
+
 ///////////////////////////////////////////////////////////////////////////////////////
-/*
-bombArr.forEach(function(i){
-    if(id === i){
-        found == true
-    } else {
-        false
+let count = []
+function checkNeighbors(){
+    
+    for(let i = 0; i <= index; i++){
+        let total = 0;
+        
+        if(i > 9 &&  i < (index - 10)){
+            if (bombArr.includes(i+1)){
+                total++
+            }
+            if (bombArr.includes(i-1)){
+                total++
+            }
+            if (bombArr.includes((i+10)+1)){
+                total++
+            }
+            if (bombArr.includes((i+10)-1)){
+                total++
+            }
+            if (bombArr.includes((i-10)+1)){
+                total++
+            }
+            if (bombArr.includes((i-10)-1)){
+                total++
+            }
+        }
+
+
+
+
+        if(i < 10){
+            
+        }
+
+        count.push(total)
     }
-})
-if (found === true){
-    btnSelect.style.backgroundColor = 'ff0000'
-} else {
-    btnSelect.style.backgroundColor = 'f8f298'
+    console.log(count)
 }
-*/
-
-/*selected.addEventListener('click', e => {
-    console.log("button clicked", e.target.id, e.target.innerHTML);
-})*/
-
-
-/*let box = document.createElement('div');
-box.style.backgroundColor = '#048000';
-board.appendChild(box);*/
-
-
-//gets random num within bounds
-//const randIndex = Math.floor(Math.random() * WORDS.length)

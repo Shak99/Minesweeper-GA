@@ -55,3 +55,34 @@ for(let i = 0; i < (boardSize); i++){
     board.appendChild(row);
 
 }
+
+
+//console.log('found ' + bombArr.includes(8))
+///////////////////////////////////////////////////////////////////////////////////////
+/*
+bombArr.forEach(function(i){
+    if(id === i){
+        found == true
+    } else {
+        false
+    }
+})
+if (found === true){
+    btnSelect.style.backgroundColor = 'ff0000'
+} else {
+    btnSelect.style.backgroundColor = 'f8f298'
+}
+*/
+
+/*selected.addEventListener('click', e => {
+    console.log("button clicked", e.target.id, e.target.innerHTML);
+})*/
+
+
+/*let box = document.createElement('div');
+box.style.backgroundColor = '#048000';
+board.appendChild(box);*/
+
+
+//gets random num within bounds
+//const randIndex = Math.floor(Math.random() * WORDS.length)
