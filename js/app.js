@@ -88,7 +88,7 @@ function assignBomb(){
         }
     }
     console.log(bombArr)
-    //checkNeighbors()
+    checkNeighbors()
 
 }
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -218,6 +218,7 @@ function checkNeighbors(){
     for(let i = 0; i <= index; i++){
         let total = 0;
         
+        //not including edges
         if(i > 9 &&  i < (index - 10)){
             if (bombArr.includes(i+1)){
                 total++
@@ -237,6 +238,46 @@ function checkNeighbors(){
             if (bombArr.includes((i-10)-1)){
                 total++
             }
+            if (bombArr.includes(i-10)){
+                total++
+            }
+            if (bombArr.includes(i+10)){
+                total++
+            }
+
+            //first row
+            if(i > 0 && i < 9){
+                if (bombArr.includes(i+1)){
+                    total++
+                }
+                if (bombArr.includes(i-1)){
+                    total++
+                }
+                if (bombArr.includes((i+10)+1)){
+                    total++
+                }
+                if (bombArr.includes((i+10)-1)){
+                    total++
+                }
+            }
+            //last row
+            if(i > (index-10) && i < index){
+                if (bombArr.includes(i+1)){
+                    total++
+                }
+                if (bombArr.includes(i-1)){
+                    total++
+                }
+                if (bombArr.includes((i-10)+1)){
+                    total++
+                }
+                if (bombArr.includes((i-10)-1)){
+                    total++
+                }
+            }
+
+
+
         }
 
 
