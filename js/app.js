@@ -3,7 +3,7 @@ console.log("This is the Minesweeper game!")
 let boardSize = 10;
 let board = document.querySelector('.board')
 let board2 = document.querySelector('.board2')
-let numOfBombs = (boardSize ** 2) * 0.3;
+let numOfBombs = Math.floor((boardSize ** 2) * 0.2);
 let bombArr = [];
 let cellsCleared = []
 let firstClick = false;
@@ -20,7 +20,7 @@ setBoard();
 //Reset
 function setBoard(){
     index = 0;
-    console.log('set board called')
+    //console.log('set board called')
     //bombArr.length = 0;
     //cellsCleared.length = 0;
     //let change = false;
@@ -71,11 +71,12 @@ function setBoard(){
 
     }
 }
+console.log('index is: ' + index)
 ///////////////////////////////////////////////////////////////////////////////////////
 function assignBomb(){
     //let numOfBombs = (boardSize ** 2) * 0.16;
-    console.log('assignBomb called')
-    console.log(numOfBombs)
+    //console.log('assignBomb called')
+    //console.log(numOfBombs)
     //if array is not filled
     while (bombArr.length < numOfBombs){ 
         let random = Math.floor(Math.random() * (index+1))
@@ -88,12 +89,13 @@ function assignBomb(){
         }
     }
     console.log(bombArr)
+
     checkNeighbors()
 
 }
 ///////////////////////////////////////////////////////////////////////////////////////
 function isBomb(idVal){
-    console.log('is a bomb called')
+    //console.log('is a bomb called')
     if(bombArr.includes(idVal)){
         return true
     } else {
@@ -104,7 +106,7 @@ function isBomb(idVal){
 }
 ////////////////////////////////////////////////////////////////////////////////////////
 function checkValues(num, arrayB, arrayA){
-    console.log('checkValues called')
+    //console.log('checkValues called')
     let result;
     if(arrayB.includes(num) === arrayA.includes(num))
         return arrayB.includes(num)
@@ -123,12 +125,17 @@ function playGame(){
     startCLick = true;
     gameoverBool = false;
 
+    bombArr.forEach(function(i){
+        bombArr.pop()
+    })
+    bombArr.length = 0
+    cellsCleared.length = 0
+
     for(let i = 0; i <= index; i++){
         let tdEl = document.getElementById(i)
         tdEl.style.backgroundColor = '#3d8a3d'
     }
 
-    bombArr = []
     //setBoard(); //make board
 
 }
@@ -138,7 +145,7 @@ startClick = true; firstClick = false
 const selected = document.querySelectorAll('.cell')
 for (const btnSelect of selected) {
   btnSelect.addEventListener('click', function(event) {
-    console.log('button clicked called')
+    //console.log('button clicked called')
     /*if(startCLick === true && firstClick === false){ //initiate firstClick and clear come cells and call assign bombs
         firstClick = true;
         console.log("should call assign bomb next!!!!")
@@ -156,13 +163,13 @@ for (const btnSelect of selected) {
     if (firstClick === false && gameoverBool === false){
         bombArr = []
         firstClick = true;
-        console.log("should call assign bomb next!!!!")
+        //console.log("should call assign bomb next!!!!")
         assignBomb();
     }
 
     //holds button id
     let id = parseInt(btnSelect.id); 
-    console.log(btnSelect.id)
+    //console.log(btnSelect.id)
 
     let td = document.getElementById(id)
     
@@ -172,13 +179,14 @@ for (const btnSelect of selected) {
     if(gameoverBool === false){
         if (isBomb(id) === false){
             td.style.backgroundColor = '#f8f298'
+            cellsCleared.push(id)
         } 
         if (isBomb(id) === true){
             td.style.backgroundColor = 'red'
             GameOver();
         }
     }
-    if(cleared === maxFreeCells){
+    if(cellsCleared.length === maxFreeCells){
         winner()
     }
 
@@ -208,6 +216,9 @@ function winner(){
     gameoverBool = true
     startCLick = false
     console.log('You Win!!!!!')
+    cellsCleared.forEach(function(i){
+        cellsCleared.pop()
+    })
 }
 
 
@@ -219,74 +230,54 @@ function checkNeighbors(){
         let total = 0;
         
         //not including edges
-        if(i > 9 &&  i < (index - 10)){
+        if(i >= 0 &&  i <= index){
             if (bombArr.includes(i+1)){
-                total++
+                if((i+1) >= 0 || (i+1) <= 100){
+                    addOne();
+                }
+                //total++
             }
             if (bombArr.includes(i-1)){
-                total++
+                if((i-1) >= 0 || (i-1) <= index){
+                    addOne();
+                }
             }
             if (bombArr.includes((i+10)+1)){
-                total++
+                if((i+10)+1 >= 0 || (i+10)+1 <= index){
+                    addOne();
+                }
             }
             if (bombArr.includes((i+10)-1)){
-                total++
+                if((i+10)-1 >= 0 || (i+10)-1 <= index){
+                    addOne();
+                }
             }
             if (bombArr.includes((i-10)+1)){
-                total++
+                if((i-10)+1 >= 0 || (i-10)+1 <= index){
+                    addOne();
+                }
             }
             if (bombArr.includes((i-10)-1)){
-                total++
+                if((i-10)-1 >= 0 || (i+10)-1 <= index){
+                    addOne();
+                }
             }
             if (bombArr.includes(i-10)){
-                total++
+                if((i-10) >= 0 || (i-10) <= index){
+                    addOne();
+                }
             }
             if (bombArr.includes(i+10)){
+                if((i+10) >= 0 || (i-10) <= index){
+                    addOne();
+                }
+            }
+
+            function addOne(){
                 total++
             }
 
-            //first row
-            if(i > 0 && i < 9){
-                if (bombArr.includes(i+1)){
-                    total++
-                }
-                if (bombArr.includes(i-1)){
-                    total++
-                }
-                if (bombArr.includes((i+10)+1)){
-                    total++
-                }
-                if (bombArr.includes((i+10)-1)){
-                    total++
-                }
-            }
-            //last row
-            if(i > (index-10) && i < index){
-                if (bombArr.includes(i+1)){
-                    total++
-                }
-                if (bombArr.includes(i-1)){
-                    total++
-                }
-                if (bombArr.includes((i-10)+1)){
-                    total++
-                }
-                if (bombArr.includes((i-10)-1)){
-                    total++
-                }
-            }
-
-
-
         }
-
-
-
-
-        if(i < 10){
-            
-        }
-
         count.push(total)
     }
     console.log(count)
