@@ -18,20 +18,14 @@ let body = document.querySelector('body')
 let pic = document.querySelector('img')
 let winPic = "win.png"
 let losePic = "lose.png"
+let count = []
 
 let index = 0;
 setBoard();
 ///////////////////////////////////////////////////////////////////////////////////////
-//Reset
+
 function setBoard(){
     index = 0;
-    //console.log('set board called')
-    //bombArr.length = 0;
-    //cellsCleared.length = 0;
-    //let change = false;
-    /*if(firstClick === true){
-        firstClick = false;
-    }*/
 
     for(let i = 0; i < (boardSize); i++){
 
@@ -82,7 +76,7 @@ console.log('index is: ' + index)
 function assignBomb(){
     if(firstClick === true){
         while (bombArr.length < numOfBombs){ 
-            let random = Math.floor(Math.random() * (index+1))
+            let random = Math.floor(Math.random() * (index))
             let uniqueNum = checkValues(random, bombArr, cellsCleared)
 
             console.log(uniqueNum)
@@ -111,7 +105,7 @@ function isBomb(idVal){
 }
 ////////////////////////////////////////////////////////////////////////////////////////
 function checkValues(num, arrayB, arrayA){
-    //console.log('checkValues called')
+    //double check it's not already in bomb or cleared cells array
     let result;
     if(arrayB.includes(num) === arrayA.includes(num))
         return arrayB.includes(num)
@@ -125,28 +119,27 @@ document.querySelector('#start').addEventListener('click', playGame);//playGame)
 
 function playGame(){
 
-    pic.source = ""
-    console.log('play game called')
-    firstClick = false;
+    //reset everything
+    pic.src = "" //take off game result
+    firstClick = false; 
     startCLick = true;
     gameoverBool = false;
 
     bombArr.forEach(function(i){
         bombArr.pop()
     })
+    //clear arrays
     bombArr.length = 0
     cellsCleared.length = 0
+    count.length = 0;
 
+    //reset board
     for(let i = 0; i < index; i++){
         let tdEl = document.getElementById(i)
         tdEl.style.backgroundColor = '#3d8a3d'
     }
 
-    if(startClick === true){
-        startBtn.innerHTML = 'Restart Game'
-    }
-
-    //setBoard(); //make board
+    startBtn.innerHTML = 'Restart Game'
 
 }
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -159,7 +152,7 @@ for (const btnSelect of selected) {
     //holds button id
     let id = parseInt(btnSelect.id); 
 
-    //console.log(btnSelect.id)
+    //if start is clicked and it's the first click then assign the bombs
     if (startCLick === true && firstClick === false && gameoverBool === false){
         bombArr = []
         firstClick = true;
@@ -168,8 +161,7 @@ for (const btnSelect of selected) {
     }
 
     let td = document.getElementById(id)
-    
-    let result = isBomb(id)
+    let result = isBomb(id) //true or false
 
     if(gameoverBool === false && startCLick === true){
         if (isBomb(id) === false){
@@ -180,7 +172,7 @@ for (const btnSelect of selected) {
             if(cellsCleared.length === maxFreeCells){
                 winner()
             }
-            tdBox.getElementById(id).innerHTML = count[id]
+            //tdBox.getElementById(id).innerHTML = count[id]
         } 
         if (isBomb(id) === true){
             td.style.backgroundColor = 'red'
@@ -196,11 +188,14 @@ for (const btnSelect of selected) {
 
 function GameOver(){
     console.log('You lose! :-((( Too bad')
+    startBtn.innerHTML = 'Play Again'
 
     gameoverBool = true
 
     bombArr.forEach(function(e){
+        console.log(e)
         let tdEl = document.getElementById(e)
+        console.log(tdEl)
         tdEl.style.backgroundColor = 'red'
     })
 
@@ -227,8 +222,8 @@ function winner(){
 }
 
 
-///////////////////////////////////////////////////////////////////////////////////////
-let count = []
+//////////////////////////////////////////////////////////////////////////////////////
+//counts how many bombs are around each cell
 function checkNeighbors(){
     
     for(let i = 0; i < index; i++){
