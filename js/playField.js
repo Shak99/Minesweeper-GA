@@ -36,6 +36,7 @@ function setBoard(){
             let box = document.createElement('td')
             let btn = document.createElement('button');
             box.id = index
+            box.innerHTML = 'test'
             //box.className = 'cell'
 
             if(change === false){

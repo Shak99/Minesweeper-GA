@@ -12,7 +12,12 @@ let change = false;
 let maxFreeCells = (boardSize**2) - numOfBombs
 let cleared = 0
 let gameoverBool = false
-
+let startBtn = document.querySelector('#start')
+let tdBox = document.querySelector('td')
+let body = document.querySelector('body')
+let pic = document.querySelector('img')
+let winPic = "win.png"
+let losePic = "lose.png"
 
 let index = 0;
 setBoard();
@@ -63,6 +68,7 @@ function setBoard(){
             if(j == (boardSize-1)){
                 change = !change;
             }
+            //btn.innerHTML = 'test'
             btn.onclick = 'checkCell(this.id)';
             row.appendChild(btn)
             index++;
@@ -74,24 +80,23 @@ function setBoard(){
 console.log('index is: ' + index)
 ///////////////////////////////////////////////////////////////////////////////////////
 function assignBomb(){
-    //let numOfBombs = (boardSize ** 2) * 0.16;
-    //console.log('assignBomb called')
-    //console.log(numOfBombs)
-    //if array is not filled
-    while (bombArr.length < numOfBombs){ 
-        let random = Math.floor(Math.random() * (index+1))
-        let uniqueNum = checkValues(random, bombArr, cellsCleared);                                                                                 
-        console.log(uniqueNum)
-        if (uniqueNum === false){
-            bombArr.push(random)
-        } else {
-            continue;
+    if(firstClick === true){
+        while (bombArr.length < numOfBombs){ 
+            let random = Math.floor(Math.random() * (index+1))
+            let uniqueNum = checkValues(random, bombArr, cellsCleared)
+
+            console.log(uniqueNum)
+            if (uniqueNum === false){
+                bombArr.push(random)
+            } else {
+                continue;
+            }
         }
+    
+        console.log(bombArr)
+
+        checkNeighbors()
     }
-    console.log(bombArr)
-
-    checkNeighbors()
-
 }
 ///////////////////////////////////////////////////////////////////////////////////////
 function isBomb(idVal){
@@ -120,6 +125,7 @@ document.querySelector('#start').addEventListener('click', playGame);//playGame)
 
 function playGame(){
 
+    pic.source = ""
     console.log('play game called')
     firstClick = false;
     startCLick = true;
@@ -131,9 +137,13 @@ function playGame(){
     bombArr.length = 0
     cellsCleared.length = 0
 
-    for(let i = 0; i <= index; i++){
+    for(let i = 0; i < index; i++){
         let tdEl = document.getElementById(i)
         tdEl.style.backgroundColor = '#3d8a3d'
+    }
+
+    if(startClick === true){
+        startBtn.innerHTML = 'Restart Game'
     }
 
     //setBoard(); //make board
@@ -141,51 +151,41 @@ function playGame(){
 }
 ///////////////////////////////////////////////////////////////////////////////////////
 //This is function checkCell
-startClick = true; firstClick = false
+//startClick = true; firstClick = false
 const selected = document.querySelectorAll('.cell')
 for (const btnSelect of selected) {
   btnSelect.addEventListener('click', function(event) {
-    //console.log('button clicked called')
-    /*if(startCLick === true && firstClick === false){ //initiate firstClick and clear come cells and call assign bombs
-        firstClick = true;
-        console.log("should call assign bomb next!!!!")
-        assignBomb();
-        //firstClick = true
-    }
-    if(startCLick === false && firstClick === false){ //clear some cells/set bombs off green -> red
-        return
-    }*/
-    /*
-    if(startCLick === true && firstClick === false){
-        firstClick = true;
-        assignBomb()
-    }*/
-    if (firstClick === false && gameoverBool === false){
-        bombArr = []
-        firstClick = true;
-        //console.log("should call assign bomb next!!!!")
-        assignBomb();
-    }
 
     //holds button id
     let id = parseInt(btnSelect.id); 
+
     //console.log(btnSelect.id)
+    if (startCLick === true && firstClick === false && gameoverBool === false){
+        bombArr = []
+        firstClick = true;
+        cellsCleared.push(id)
+        assignBomb();
+    }
 
     let td = document.getElementById(id)
     
     let result = isBomb(id)
-    console.log(`cell ${id} is ${result}`)
 
-    if(gameoverBool === false){
+    if(gameoverBool === false && startCLick === true){
         if (isBomb(id) === false){
             td.style.backgroundColor = '#f8f298'
-            cellsCleared.push(id)
+            if(cellsCleared.includes(id) === false){
+                cellsCleared.push(id)
+            }
+            //tdBox.innerHTML = count[id]
         } 
         if (isBomb(id) === true){
             td.style.backgroundColor = 'red'
+            startCLick = false
             GameOver();
         }
     }
+
     if(cellsCleared.length === maxFreeCells){
         winner()
     }
@@ -199,10 +199,13 @@ function GameOver(){
     console.log('You lose! :-((( Too bad')
 
     gameoverBool = true
+
     bombArr.forEach(function(e){
         let tdEl = document.getElementById(e)
         tdEl.style.backgroundColor = 'red'
     })
+
+    pic.source = losePic
 
     bombArr.forEach(function(i){
         bombArr.pop()
@@ -211,10 +214,13 @@ function GameOver(){
     firstClick = false;
     startCLick = false;
 
+    
+
 }
 function winner(){
     gameoverBool = true
     startCLick = false
+    pic.source = winPic
     console.log('You Win!!!!!')
     cellsCleared.forEach(function(i){
         cellsCleared.pop()
@@ -226,57 +232,59 @@ function winner(){
 let count = []
 function checkNeighbors(){
     
-    for(let i = 0; i <= index; i++){
+    for(let i = 0; i < index; i++){
         let total = 0;
-        
+        if(bombArr.includes(i) === false ){
         //not including edges
-        if(i >= 0 &&  i <= index){
-            if (bombArr.includes(i+1)){
-                if((i+1) >= 0 || (i+1) <= 100){
-                    addOne();
+            if(i >= 0 &&  i < index){
+                if (bombArr.includes(i+1)){
+                    if((i+1) >= 0 || (i+1) <= 100){
+                        addOne();
+                    }
                 }
-                //total++
-            }
-            if (bombArr.includes(i-1)){
-                if((i-1) >= 0 || (i-1) <= index){
-                    addOne();
+                if (bombArr.includes(i-1)){
+                    if((i-1) >= 0 || (i-1) < index){
+                        addOne();
+                    }
                 }
-            }
-            if (bombArr.includes((i+10)+1)){
-                if((i+10)+1 >= 0 || (i+10)+1 <= index){
-                    addOne();
+                if (bombArr.includes((i+10)+1)){
+                    if((i+10)+1 >= 0 || (i+10)+1 < index){
+                        addOne();
+                    }
                 }
-            }
-            if (bombArr.includes((i+10)-1)){
-                if((i+10)-1 >= 0 || (i+10)-1 <= index){
-                    addOne();
+                if (bombArr.includes((i+10)-1)){
+                    if((i+10)-1 >= 0 || (i+10)-1 < index){
+                        addOne();
+                    }
                 }
-            }
-            if (bombArr.includes((i-10)+1)){
-                if((i-10)+1 >= 0 || (i-10)+1 <= index){
-                    addOne();
+                if (bombArr.includes((i-10)+1)){
+                    if((i-10)+1 >= 0 || (i-10)+1 < index){
+                        addOne();
+                    }
                 }
-            }
-            if (bombArr.includes((i-10)-1)){
-                if((i-10)-1 >= 0 || (i+10)-1 <= index){
-                    addOne();
+                if (bombArr.includes((i-10)-1)){
+                    if((i-10)-1 >= 0 || (i+10)-1 < index){
+                        addOne();
+                    }
                 }
-            }
-            if (bombArr.includes(i-10)){
-                if((i-10) >= 0 || (i-10) <= index){
-                    addOne();
+                if (bombArr.includes(i-10)){
+                    if((i-10) >= 0 || (i-10) < index){
+                        addOne();
+                    }
                 }
-            }
-            if (bombArr.includes(i+10)){
-                if((i+10) >= 0 || (i-10) <= index){
-                    addOne();
+                if (bombArr.includes(i+10)){
+                    if((i+10) >= 0 || (i-10) < index){
+                        addOne();
+                    }
+                }
+
+                function addOne(){
+                    total++
                 }
             }
 
-            function addOne(){
-                total++
-            }
-
+        } else {
+            total = null
         }
         count.push(total)
     }

@@ -35,15 +35,20 @@ h1{
 
 td{
     width: 40px;
-    height:40px
+    height:40px;
+    margin-top:50px;
+    margin-left:50px
 }
 
-button {
-
+tr {
+    align-items: center;
 }
 
 .cell{
     background-color: #3d8a3d;
+    /*margin-top:50px;
+    margin-left:50px;
+    padding: -100%;*/
 }
 .clear{
     background-color: #f8f298;
@@ -53,4 +58,40 @@ button {
 }
 .tdBomb{
     background-color: rgb(255, 0, 0);
+}
+
+.pic{
+    position: absolute;
+    z-index: 2; /* put .gold-box above .green-box and .dashed-box */
+    background: black;
+    width: 300px;
+    left: 300px;
+    top: 15em;
+    opacity: 0.87;
+    margin: 0 0 0 120px;
+}
+
+table{
+    position:center;
+    margin: 0 0 0 250px;
+}
+
+div{
+    display: flex;
+    justify-content: center;
+}
+
+#start{
+    background-color: rgb(0, 255, 191);
+    height: 40px;
+    width: 170px;
+    font-size:25px;
+    position: center;
+    justify-content: center;
+
+    
+    margin-top: 1px;  
+    margin-left: 250px;
+    font-weight:600;
+    align-items: center;
 }
