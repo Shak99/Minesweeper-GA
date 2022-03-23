@@ -177,17 +177,16 @@ for (const btnSelect of selected) {
             if(cellsCleared.includes(id) === false){
                 cellsCleared.push(id)
             }
-            //tdBox.innerHTML = count[id]
+            if(cellsCleared.length === maxFreeCells){
+                winner()
+            }
+            tdBox.getElementById(id).innerHTML = count[id]
         } 
         if (isBomb(id) === true){
             td.style.backgroundColor = 'red'
             startCLick = false
             GameOver();
         }
-    }
-
-    if(cellsCleared.length === maxFreeCells){
-        winner()
     }
 
     console.log(`buttons ${id} work `);
@@ -205,7 +204,7 @@ function GameOver(){
         tdEl.style.backgroundColor = 'red'
     })
 
-    pic.source = losePic
+    pic.src = losePic
 
     bombArr.forEach(function(i){
         bombArr.pop()
@@ -220,7 +219,7 @@ function GameOver(){
 function winner(){
     gameoverBool = true
     startCLick = false
-    pic.source = winPic
+    pic.src = winPic
     console.log('You Win!!!!!')
     cellsCleared.forEach(function(i){
         cellsCleared.pop()

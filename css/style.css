@@ -34,10 +34,11 @@ h1{
 }
 
 td{
-    width: 40px;
-    height:40px;
+    width: 30px;
+    height:30px;
     margin-top:50px;
-    margin-left:50px
+    margin-left:50px;
+    font-size: xx-small;
 }
 
 tr {
@@ -62,18 +63,15 @@ tr {
 
 .pic{
     position: absolute;
-    z-index: 2; /* put .gold-box above .green-box and .dashed-box */
+    /*z-index: 2;  put .gold-box above .green-box and .dashed-box */
     background: black;
     width: 300px;
-    left: 300px;
     top: 15em;
-    opacity: 0.87;
-    margin: 0 0 0 120px;
 }
 
 table{
     position:center;
-    margin: 0 0 0 250px;
+    margin: 0 auto;
 }
 
 div{
@@ -86,12 +84,25 @@ div{
     height: 40px;
     width: 170px;
     font-size:25px;
-    position: center;
-    justify-content: center;
-
-    
-    margin-top: 1px;  
-    margin-left: 250px;
+    display: block;
+    margin: 0 auto;
     font-weight:600;
-    align-items: center;
 }
+/*
+#intro-screen {
+    position: absolute;
+    z-index: 100;
+    width: 600px;
+    height: 400px;
+    background-color: black;
+}
+
+#introContent{
+    width: 400px;
+    height: 200px;
+    padding:20px;
+    background-color: white;
+    margin: 80 auto;
+    margin-top: 80px;
+    text-align: center;
+}*/
