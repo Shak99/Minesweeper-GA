@@ -1,3 +1,5 @@
+//This is just snippets of code that didn't work, but I may want to pull from it later
+
 let userBoard = new Array(boardSize); //2D array; This is the board on browser
 let oneBigArray = new Array(boardSize ** 2)
 console.log(oneBigArray.length)
