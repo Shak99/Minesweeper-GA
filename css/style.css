@@ -17,31 +17,6 @@ h3{
     text-align: center;
 }
 
-
-.board{
-    display: grid;
-    height:400px;
-    width: 400px;
-    grid-row: repeat(10, 1fr); /*This is giving us our 10x10 grid look*/
-    border: 3px brown;
-}
-
-.rowClass{
-    display: grid;
-    height:40px;
-    width: 40px;
-    grid-row: 50px 50px;/*repeat(10, 1fr); /*This is giving us our 10x10 grid look*/
-
-}
-
-.grid {
-    height: 30px;
-    width: 30px;
-    table-layout: fixed;
-    table-layout: fixed;
-    width: 30px;
-}
-
 td{
     width: 30px;
     height:30px;
@@ -50,32 +25,13 @@ td{
     font-size: xx-small;
 }
 
-tr {
-    align-items: center;
-}
 
 .cell{
     background-color: #3d8a3d;
 }
-.cell1{
-    background-color: #048000;
-}
-.cell2{
-    background-color: #0bc905;
-}
-.clear{
-    background-color: #f8f298;
-}
-.bomb{
-    background-color: rgb(255, 0, 0);
-}
-.tdBomb{
-    background-color: rgb(255, 0, 0);
-}
 
 .pic{
     position: absolute;
-    /*z-index: 2;  put .gold-box above .green-box and .dashed-box */
     background: black;
     width: 400px;
     top: 15em;
@@ -92,7 +48,7 @@ div{
 }
 
 #start{
-    background-color: black;/*rgb(0, 255, 191);*/
+    background-color: black;
     color: white;
     height: 40px;
     width: 190px;
