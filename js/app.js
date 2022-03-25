@@ -123,7 +123,8 @@ document.querySelector('#start').addEventListener('click', playGame);//playGame)
 function playGame(){
 
     //reset everything
-    pic.src = "" //take off game result
+    //pic.src = "" //take off game result
+    pic.style.visibility = 'hidden'
     firstClick = false; 
     startCLick = true;
     gameoverBool = false;
@@ -210,7 +211,7 @@ function GameOver(){
         let tdEl = document.getElementById(e)
         tdEl.style.backgroundColor = 'red'
     })
-
+    pic.style.visibility = 'visible'
     pic.src = losePic
 
     bombArr.forEach(function(i){
@@ -226,6 +227,7 @@ function GameOver(){
 function winner(){
     gameoverBool = true
     startCLick = false
+    pic.style.visibility = 'visible'
     pic.src = winPic
     console.log('You Win!!!!!')
     cellsCleared.forEach(function(i){
