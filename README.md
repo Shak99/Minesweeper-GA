@@ -22,7 +22,7 @@ Images of Game
 
 Game Link: https://shak99.github.io/Minesweeper-GA/
 
-Instructions: When you're ready to start, click the Start button. Click a cell and try to choose the next best guess without hitting a bomb. If you start the game, but want to start over, you can click the Restart button. When the game ends, and want another attempt, you can click the Play Again button.
+Instructions: When you're ready to start, click the Start button. Click a cell and try to choose the next best guess without hitting a bomb. If you start the game, but want to start over, you can click the Restart button. When the game ends, and you want another try, you can click the Play Again button.
 
 
 
