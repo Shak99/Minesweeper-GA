@@ -4,7 +4,7 @@ let boardSize = 10;
 let board = document.querySelector('.board')
 let board2 = document.querySelector('.board2')
 let numOfBombs = Math.floor((boardSize ** 2) * 0.2);
-let bombArr = [];
+let bombArr = [1,2,3,4,5,6,7,8,9,0,10,11,12,13,14,15,16,17,18,19,20];
 let cellsCleared = []
 let firstClick = false;
 let startCLick = false;
@@ -13,12 +13,15 @@ let maxFreeCells = (boardSize**2) - numOfBombs
 let cleared = 0
 let gameoverBool = false
 let startBtn = document.querySelector('#start')
-let tdBox = document.querySelector('td')
+let tdBox = document.querySelectorAll('td')
 let body = document.querySelector('body')
 let pic = document.querySelector('img')
 let winPic = "win.png"
 let losePic = "lose.png"
 let count = []
+let changeCellClass = document.querySelector('.cell')
+//let audioGood = new Audio("soundfile.wav");
+let audioBad = new Audio()
 
 let index = 0;
 setBoard();
@@ -36,7 +39,10 @@ function setBoard(){
             let box = document.createElement('td')
             let btn = document.createElement('button');
             box.id = index
+            box.className = `ID${index}`
+            //box.innerHTML = 'test'
             //box.className = 'cell'
+            //box.innerHTML = 'j'
 
             if(change === false){
                 if(index % 2 === 0){
@@ -62,7 +68,6 @@ function setBoard(){
             if(j == (boardSize-1)){
                 change = !change;
             }
-            //btn.innerHTML = 'test'
             btn.onclick = 'checkCell(this.id)';
             row.appendChild(btn)
             index++;
@@ -71,7 +76,7 @@ function setBoard(){
 
     }
 }
-console.log('index is: ' + index)
+
 ///////////////////////////////////////////////////////////////////////////////////////
 function assignBomb(){
     if(firstClick === true){
@@ -133,10 +138,21 @@ function playGame(){
     cellsCleared.length = 0
     count.length = 0;
 
+
+    
+
+
     //reset board
     for(let i = 0; i < index; i++){
-        let tdEl = document.getElementById(i)
-        tdEl.style.backgroundColor = '#3d8a3d'
+        let buttonEl = document.getElementById(i)
+        buttonEl.style.backgroundColor = '#3d8a3d'
+        let tdEl = document.querySelector(`.ID${i}`)
+        tdEl.innerHTML = ""
+        //let tdArray = Array.from(document.querySelectorAll('td')) //grabs all the td elements
+            // let correctTd = tdArray.find(tdEl => parseInt(tdEl.i) === i) //find the id within the td elements
+            // correctTd.innerHTML = count[i]
+            // correctTd.style.fontSize = '14px'
+            // correctTd.style.color = '#f8f298'
     }
 
     startBtn.innerHTML = 'Restart Game'
@@ -160,7 +176,7 @@ for (const btnSelect of selected) {
         assignBomb();
     }
 
-    let td = document.getElementById(id)
+    let td = document.getElementById(id) //gets button element
     let result = isBomb(id) //true or false
 
     if(gameoverBool === false && startCLick === true){
@@ -169,10 +185,20 @@ for (const btnSelect of selected) {
             if(cellsCleared.includes(id) === false){
                 cellsCleared.push(id)
             }
+
+            let tdArray = Array.from(document.querySelectorAll('td')) //grabs all the td elements
+            let correctTd = tdArray.find(td => parseInt(td.id) === id) //find the id within the td elements
+            correctTd.innerHTML = count[id]
+            correctTd.style.fontSize = '14px'
+            correctTd.style.color = '#f8f298'
+            //correctTd.style.fontWeight = '40%'
+            correctTd.setAttribute('position', 'center')
+            //document.getElementById(id).innerHTML = count[id]
+
             if(cellsCleared.length === maxFreeCells){
                 winner()
             }
-            //tdBox.getElementById(id).innerHTML = count[id]
+            
         } 
         if (isBomb(id) === true){
             td.style.backgroundColor = 'red'
@@ -193,7 +219,6 @@ function GameOver(){
     gameoverBool = true
 
     bombArr.forEach(function(e){
-        console.log(e)
         let tdEl = document.getElementById(e)
         console.log(tdEl)
         tdEl.style.backgroundColor = 'red'
@@ -281,6 +306,41 @@ function checkNeighbors(){
             total = null
         }
         count.push(total)
+        //tdBox.innerHTML = "mo"
     }
     console.log(count)
 }
+
+/*function clear(id){
+    let tdArray = Array.from(document.querySelectorAll('td')) //grabs all the td elements
+
+    if(bombArr.includes(id) === false){
+        td.style.backgroundColor = '#f8f298'
+        cellsCleared.push(id)
+        let correctTd = tdArray.find(td => parseInt(td.id) === id)
+        correctTd.innerHTML = count[id]
+        correctTd.style.fontSize = '14px'
+        correctTd.style.color = '#f8f298'
+    }
+
+    if(bombArr.includes(id+1) === false){
+        td.style.backgroundColor = '#f8f298'
+        cellsCleared.push(id+1)
+        let correctTd = tdArray.find(td => parseInt(td.id) === id+1)
+        correctTd.innerHTML = count[id+1]
+        correctTd.style.fontSize = '14px'
+        correctTd.style.color = '#f8f298'
+    }
+    /*
+    id-1
+
+    id+10
+    (id-10)-1
+    (id-10)+1
+
+    id+10
+    (id+10)-1
+    (id+10)+1
+    
+
+}*/

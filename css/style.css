@@ -47,9 +47,12 @@ tr {
 
 .cell{
     background-color: #3d8a3d;
-    /*margin-top:50px;
-    margin-left:50px;
-    padding: -100%;*/
+}
+.cell1{
+    background-color: #048000;
+}
+.cell2{
+    background-color: #0bc905;
 }
 .clear{
     background-color: #f8f298;

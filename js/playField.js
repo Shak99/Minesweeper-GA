@@ -3,7 +3,7 @@ console.log("This is the Minesweeper game!")
 let boardSize = 10;
 let board = document.querySelector('.board')
 let board2 = document.querySelector('.board2')
-let numOfBombs = (boardSize ** 2) * 0.16;
+let numOfBombs = Math.floor((boardSize ** 2) * 0.2);
 let bombArr = [];
 let cellsCleared = []
 let firstClick = false;
@@ -11,21 +11,22 @@ let startCLick = false;
 let change = false;
 let maxFreeCells = (boardSize**2) - numOfBombs
 let cleared = 0
-
+let gameoverBool = false
+let startBtn = document.querySelector('#start')
+let tdBox = document.querySelector('td')
+let body = document.querySelector('body')
+let pic = document.querySelector('img')
+let winPic = "win.png"
+let losePic = "lose.png"
+let count = []
+let changeCellClass = document.querySelector('.cell')
 
 let index = 0;
 setBoard();
 ///////////////////////////////////////////////////////////////////////////////////////
-//Reset
+
 function setBoard(){
     index = 0;
-    console.log('set board called')
-    //bombArr.length = 0;
-    //cellsCleared.length = 0;
-    //let change = false;
-    /*if(firstClick === true){
-        firstClick = false;
-    }*/
 
     for(let i = 0; i < (boardSize); i++){
 
@@ -36,16 +37,18 @@ function setBoard(){
             let box = document.createElement('td')
             let btn = document.createElement('button');
             box.id = index
-            box.innerHTML = 'test'
             //box.className = 'cell'
 
             if(change === false){
                 if(index % 2 === 0){
                 box.style.backgroundColor = '#048000';
+                box.innerHTML = 'test'
                 btn.appendChild(box)
+                btn.className = 'cell1'
                 } else {
                 box.style.backgroundColor = '#0bc905';
                 btn.appendChild(box)
+                btn.className = 'cell2'
                 }
             }
 
@@ -53,9 +56,11 @@ function setBoard(){
                 if(index % 2 === 0){
                     box.style.backgroundColor = '#0bc905';
                     btn.appendChild(box)
+                    btn.className = 'cell2'
                 } else {
                     box.style.backgroundColor = '#048000';
                     btn.appendChild(box)
+                    btn.className = 'cell1'
                 }
             }
             btn.id = index;
@@ -63,6 +68,7 @@ function setBoard(){
             if(j == (boardSize-1)){
                 change = !change;
             }
+        
             btn.onclick = 'checkCell(this.id)';
             row.appendChild(btn)
             index++;
@@ -72,123 +78,99 @@ function setBoard(){
     }
 }
 
+///////////////////////////////////////////////////////////////////////////////////////
+function assignBomb(){
+    if(firstClick === true){
+        while (bombArr.length < numOfBombs){ 
+            let random = Math.floor(Math.random() * (index))
+            let uniqueNum = checkValues(random, bombArr, cellsCleared)
+
+            console.log(uniqueNum)
+            if (uniqueNum === false){
+                bombArr.push(random)
+            } else {
+                continue;
+            }
+        }
+    
+        console.log(bombArr)
+
+        checkNeighbors()
+    }
+}
+
 const selected = document.querySelectorAll('.cell')
 for (const btnSelect of selected) {
   btnSelect.addEventListener('click', function(event) {
-    console.log('button clicked called')
-    if(startCLick === true && firstClick === false){ //initiate firstClick and clear come cells and call assign bombs
+
+    //holds button id
+    let id = parseInt(btnSelect.id); 
+
+    //if start is clicked and it's the first click then assign the bombs
+    if (startCLick === true && firstClick === false && gameoverBool === false){
+        bombArr = []
         firstClick = true;
-        console.log("should call assign bomb next!!!!")
-        assignBomb();
-        //firstClick = true
-    }
-    if(startCLick === false && firstClick === false){ //clear some cells/set bombs off green -> red
-        return
-    }
-    /*
-    if(startCLick === true && firstClick === false){
-        firstClick = true;
-        assignBomb()
-    }*/
-    if (firstClick === false){
-        firstClick = true;
-        console.log("should call assign bomb next!!!!")
+        cellsCleared.push(id)
         assignBomb();
     }
 
-    let id = btnSelect.id;
-    console.log(btnSelect.id)
-    //btnSelect.style.backgroundColor = 'purple'
-
-    
-    if(arrayBombs.includes(id)){
-        btnSelect.style.backgroundColor = 'purple'
-    }
     let td = document.getElementById(id)
-    td.style.backgroundColor = 'red'
+    let result = isBomb(id) //true or false
 
-    //let td = document.querySelectorAll('td')
-    //let tdEl = td.getElementById(id)
+    if(gameoverBool === false && startCLick === true){
+        if (isBomb(id) === false){
+            td.style.backgroundColor = '#f8f298'
+            if(cellsCleared.includes(id) === false){
+                cellsCleared.push(id)
+            }
+            if(cellsCleared.length === maxFreeCells){
+                winner()
+            }
+            //tdBox.getElementById(id).innerHTML = count[id]
+        } 
+        if (isBomb(id) === true){
+            td.style.backgroundColor = 'red'
+            startCLick = false
+            GameOver();
+        }
+    }
 
-    newSettings(id)
-
-
-    //btnSelect.style.backgroundColor = 'ff0000'
-    //select td to change red
     console.log(`buttons ${id} work `);
     found = false;
   })
 }
 
-/*
-//assign bombs
-let cellsCleared = [3,36,98,55]
-let bombArr = []
-boardSize = 10
-let index = 99
-
-function assignBomb(){
-    let numOfBombs = (boardSize ** 2) * 0.16;
-    console.log(numOfBombs)
-
-    while (bombArr.length < numOfBombs){ //if array is not filled
-        let random = Math.floor(Math.random() * (index+1))
-        let uniqueNum = checkValues(random, bombArr, cellsCleared);                                                                                 
-        console.log(uniqueNum)
-        if (uniqueNum === false){
-            bombArr.push(random)
-        } else {
-            continue;
-        }
+function isBomb(idVal){
+    //console.log('is a bomb called')
+    if(bombArr.includes(idVal)){
+        return true
+    } else {
+        cleared++
+        return false
     }
-    console.log(bombArr)
-
+    
 }
 
-function checkValues(num, arrayB, arrayA){
 
-    if(arrayB.includes(num) === arrayA.includes(num))
-        return arrayB.includes(num)
-}
-////////////////// worked with changing color to red
-    //let id = btnSelect.id;
-    //console.log(btnSelect.id)
-    //btnSelect.style.backgroundColor = 'purple'
-    let td = document.getElementById(id)
-    td.style.backgroundColor = 'red'
-/////////////////
-*/
 
-/*
-function assignBomb(){
-    let numOfBombs = (boardSize ** 2) * 0.16;
-    console.log(numOfBombs)
 
-    while (bombArr.length < numOfBombs){ //if array is not filled
-        const random = Math.floor(Math.random() * (index+1))
 
-        bombArr.forEach(function(i){
-                if(rand === i){ //if already in array...
-                    doubleCheck();
-                } else {
-                    bombArr.push(random)
-                }
-        })
-        
 
-        function doubleCheck(rand){ //get another random number to check
-            random = Math.floor(Math.random() * (index+1))
-            while (bombArr.length < numOfBombs){
-                bombArr.forEach(function(i){
-                    if(rand === i){
-                        doubleCheck();
-                    } else {
-                        bombArr.push(random)
-                    }
-                })
-            }
-        console.log(random)
-        }
-    }
-    console.log(bombArr)
-}*/
+
+
+
+
+
+
+
+
+
+
+let tdArray = Array.from(document.querySelectorAll('td')) //grabs all the td elements
+            let correctTd = tdArray.find(td => parseInt(td.id) === id) //find the id within the td elements
+            correctTd.innerHTML = count[id]
+            correctTd.style.fontSize = '14px'
+            correctTd.style.color = '#f8f298'
+            //correctTd.style.fontWeight = '40%'
+            correctTd.setAttribute('position', 'center')
+            //document.getElementById(id).innerHTML = count[id]
