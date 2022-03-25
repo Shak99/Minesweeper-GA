@@ -20,6 +20,11 @@ Images of Game
 
 <img width="1279" alt="Real Board" src="https://user-images.githubusercontent.com/47376680/160140698-46f92539-a0f1-414f-b8e2-004ffc9e9b80.png">
 
+Game Link: https://shak99.github.io/Minesweeper-GA/
+
+Instructions: When you're ready to start, click the Start button. Click a cell and try to choose the next best guess without hitting a bomb. If you start the game, but want to start over, you can click the Restart button. When the game ends, and want another attempt, you can click the Play Again button.
+
+
 
 Technologies used: JavaScript, CSS, HTML
 
