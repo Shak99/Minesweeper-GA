@@ -1,10 +1,7 @@
-console.log("This is the Minesweeper game!")
-
 let boardSize = 10;
-let board = document.querySelector('.board')
 let board2 = document.querySelector('.board2')
 let numOfBombs = Math.floor((boardSize ** 2) * 0.2);
-let bombArr = [1,2,3,4,5,6,7,8,9,0,10,11,12,13,14,15,16,17,18,19,20];
+let bombArr = [];
 let cellsCleared = []
 let firstClick = false;
 let startCLick = false;
@@ -40,9 +37,7 @@ function setBoard(){
             let btn = document.createElement('button');
             box.id = index
             box.className = `ID${index}`
-            //box.innerHTML = 'test'
-            //box.className = 'cell'
-            //box.innerHTML = 'j'
+
 
             if(change === false){
                 if(index % 2 === 0){
@@ -83,23 +78,28 @@ function assignBomb(){
         while (bombArr.length < numOfBombs){ 
             let random = Math.floor(Math.random() * (index))
             let uniqueNum = checkValues(random, bombArr, cellsCleared)
-
-            console.log(uniqueNum)
             if (uniqueNum === false){
                 bombArr.push(random)
             } else {
                 continue;
             }
         }
-    
-        console.log(bombArr)
 
+        checkNeighbors()
+    }
+}
+
+function quickWin(){
+    if(firstClick === true){
+        for(let i = 0; i < numOfBombs; i++){
+            bombArr.push(i)
+        }
         checkNeighbors()
     }
 }
 ///////////////////////////////////////////////////////////////////////////////////////
 function isBomb(idVal){
-    //console.log('is a bomb called')
+
     if(bombArr.includes(idVal)){
         return true
     } else {
@@ -117,9 +117,7 @@ function checkValues(num, arrayB, arrayA){
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
-//make event listeners for all the tr elements and buttons
-//let selected = document.querySelectorAll('.cell')
-//selected.addEventListener('click', checkCell);
+
 document.querySelector('#start').addEventListener('click', playGame);//playGame);
 
 function playGame(){
@@ -138,21 +136,12 @@ function playGame(){
     cellsCleared.length = 0
     count.length = 0;
 
-
-    
-
-
     //reset board
     for(let i = 0; i < index; i++){
         let buttonEl = document.getElementById(i)
         buttonEl.style.backgroundColor = '#3d8a3d'
         let tdEl = document.querySelector(`.ID${i}`)
         tdEl.innerHTML = ""
-        //let tdArray = Array.from(document.querySelectorAll('td')) //grabs all the td elements
-            // let correctTd = tdArray.find(tdEl => parseInt(tdEl.i) === i) //find the id within the td elements
-            // correctTd.innerHTML = count[i]
-            // correctTd.style.fontSize = '14px'
-            // correctTd.style.color = '#f8f298'
     }
 
     startBtn.innerHTML = 'Restart Game'
@@ -161,7 +150,6 @@ function playGame(){
 }
 ///////////////////////////////////////////////////////////////////////////////////////
 //This is function checkCell
-//startClick = true; firstClick = false
 const selected = document.querySelectorAll('.cell')
 for (const btnSelect of selected) {
   btnSelect.addEventListener('click', function(event) {
@@ -175,6 +163,7 @@ for (const btnSelect of selected) {
         firstClick = true;
         cellsCleared.push(id)
         assignBomb();
+        //quickWin()
         audioGood.play()
     }
 
@@ -196,21 +185,6 @@ for (const btnSelect of selected) {
             correctTd.style.color = '#f8f298'
             correctTd.style.fontWeight = 'bold'
 
-            /*
-            if(bombArr.includes(id+1) === false && cellsCleared.includes(id+1) === false){
-               if(id+1 >= 0 && id+1 < index){
-                let newTD = document.querySelector(`.ID${id+1}`)
-                newTD.innerHTML = count[id+1]
-                newTd.style.fontSize = '14px'
-                newTd.style.color = '#f8f298'
-                newTd.style.fontWeight = 'bold'
-                let newButton = document.getElementById(id+1)
-                newButton.style.backgroundColor = '#f8f298'
-                cellsCleared.push(id+1)
-               }
-            }*/
-
-
             if(cellsCleared.length === maxFreeCells){
                 winner()
             }
@@ -222,9 +196,6 @@ for (const btnSelect of selected) {
             GameOver();
         }
     }
-
-    console.log(`buttons ${id} work `);
-    found = false;
   })
 }
 
@@ -237,7 +208,6 @@ function GameOver(){
 
     bombArr.forEach(function(e){
         let tdEl = document.getElementById(e)
-        console.log(tdEl)
         tdEl.style.backgroundColor = 'red'
     })
 
@@ -271,7 +241,7 @@ function checkNeighbors(){
     for(let i = 0; i < index; i++){
         let total = 0;
         if(bombArr.includes(i) === false ){
-        //not including edges
+
             if(i >= 0 &&  i < index){
                 if (bombArr.includes(i+1)){
                     if((i+1) >= 0 || (i+1) <= 100){
@@ -323,41 +293,5 @@ function checkNeighbors(){
             total = null
         }
         count.push(total)
-        //tdBox.innerHTML = "mo"
     }
-    console.log(count)
 }
-
-/*function clear(id){
-    let tdArray = Array.from(document.querySelectorAll('td')) //grabs all the td elements
-
-    if(bombArr.includes(id) === false){
-        td.style.backgroundColor = '#f8f298'
-        cellsCleared.push(id)
-        let correctTd = tdArray.find(td => parseInt(td.id) === id)
-        correctTd.innerHTML = count[id]
-        correctTd.style.fontSize = '14px'
-        correctTd.style.color = '#f8f298'
-    }
-
-    if(bombArr.includes(id+1) === false){
-        td.style.backgroundColor = '#f8f298'
-        cellsCleared.push(id+1)
-        let correctTd = tdArray.find(td => parseInt(td.id) === id+1)
-        correctTd.innerHTML = count[id+1]
-        correctTd.style.fontSize = '14px'
-        correctTd.style.color = '#f8f298'
-    }
-    /*
-    id-1
-
-    id+10
-    (id-10)-1
-    (id-10)+1
-
-    id+10
-    (id+10)-1
-    (id+10)+1
-    
-
-}*/
