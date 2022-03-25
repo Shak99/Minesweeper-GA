@@ -86,3 +86,21 @@ board.appendChild(box);*/
 
 //gets random num within bounds
 //const randIndex = Math.floor(Math.random() * WORDS.length)
+
+
+
+
+
+/*
+            if(bombArr.includes(id+1) === false && cellsCleared.includes(id+1) === false){
+               if(id+1 >= 0 && id+1 < index){
+                let newTD = document.querySelector(`.ID${id+1}`)
+                newTD.innerHTML = count[id+1]
+                newTd.style.fontSize = '14px'
+                newTd.style.color = '#f8f298'
+                newTd.style.fontWeight = 'bold'
+                let newButton = document.getElementById(id+1)
+                newButton.style.backgroundColor = '#f8f298'
+                cellsCleared.push(id+1)
+               }
+            }*/
