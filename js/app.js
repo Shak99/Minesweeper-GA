@@ -20,7 +20,7 @@ let winPic = "win.png"
 let losePic = "lose.png"
 let count = []
 let changeCellClass = document.querySelector('.cell')
-//let audioGood = new Audio("soundfile.wav");
+let audioGood = new Audio("clickSound.wav");
 let audioBad = new Audio()
 
 let index = 0;
@@ -156,6 +156,7 @@ function playGame(){
     }
 
     startBtn.innerHTML = 'Restart Game'
+    startBtn.style.height = '65px'
 
 }
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -174,6 +175,7 @@ for (const btnSelect of selected) {
         firstClick = true;
         cellsCleared.push(id)
         assignBomb();
+        audioGood.play()
     }
 
     let td = document.getElementById(id) //gets button element
@@ -184,6 +186,7 @@ for (const btnSelect of selected) {
             td.style.backgroundColor = '#f8f298'
             if(cellsCleared.includes(id) === false){
                 cellsCleared.push(id)
+                audioGood.play()
             }
 
             let tdArray = Array.from(document.querySelectorAll('td')) //grabs all the td elements
@@ -191,9 +194,22 @@ for (const btnSelect of selected) {
             correctTd.innerHTML = count[id]
             correctTd.style.fontSize = '14px'
             correctTd.style.color = '#f8f298'
-            //correctTd.style.fontWeight = '40%'
-            correctTd.setAttribute('position', 'center')
-            //document.getElementById(id).innerHTML = count[id]
+            correctTd.style.fontWeight = 'bold'
+
+            /*
+            if(bombArr.includes(id+1) === false && cellsCleared.includes(id+1) === false){
+               if(id+1 >= 0 && id+1 < index){
+                let newTD = document.querySelector(`.ID${id+1}`)
+                newTD.innerHTML = count[id+1]
+                newTd.style.fontSize = '14px'
+                newTd.style.color = '#f8f298'
+                newTd.style.fontWeight = 'bold'
+                let newButton = document.getElementById(id+1)
+                newButton.style.backgroundColor = '#f8f298'
+                cellsCleared.push(id+1)
+               }
+            }*/
+
 
             if(cellsCleared.length === maxFreeCells){
                 winner()
@@ -215,6 +231,7 @@ for (const btnSelect of selected) {
 function GameOver(){
     console.log('You lose! :-((( Too bad')
     startBtn.innerHTML = 'Play Again'
+    startBtn.style.height = '65px'
 
     gameoverBool = true
 

@@ -4,7 +4,16 @@
     --bombRed: #ff0000;
   }
 
+body{
+  background: rgb(188,138,240);
+  background: linear-gradient(90deg, rgba(188,138,240,1) 0%, rgba(190,182,194,1) 49%, rgba(255,210,76,1) 100%);
+}
+
 h1{
+    text-align: center;
+    font-family: 'Bungee Shade', cursive;
+}
+h3{
     text-align: center;
 }
 
@@ -68,7 +77,7 @@ tr {
     position: absolute;
     /*z-index: 2;  put .gold-box above .green-box and .dashed-box */
     background: black;
-    width: 300px;
+    width: 400px;
     top: 15em;
 }
 
@@ -83,29 +92,14 @@ div{
 }
 
 #start{
-    background-color: rgb(0, 255, 191);
+    background-color: black;/*rgb(0, 255, 191);*/
+    color: white;
     height: 40px;
     width: 190px;
     font-size:25px;
     display: block;
     margin: 0 auto;
     font-weight:600;
+    font-family: 'Bungee Shade', cursive;
+    opacity: 80%;
 }
-/*
-#intro-screen {
-    position: absolute;
-    z-index: 100;
-    width: 600px;
-    height: 400px;
-    background-color: black;
-}
-
-#introContent{
-    width: 400px;
-    height: 200px;
-    padding:20px;
-    background-color: white;
-    margin: 80 auto;
-    margin-top: 80px;
-    text-align: center;
-}*/
